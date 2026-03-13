@@ -36,7 +36,8 @@
     "completion": "Completion",
     "feedback": "Feedback",
     "settingsSection": "Settings",
-    "certificateTemplates": "Certificate Templates"
+    "certificateTemplates": "Certificate Templates",
+    "skills": "Skills"
   },
   "auth": {
     "signIn": "Sign In",
@@ -154,6 +155,42 @@
       "manager": "Manager",
       "learner": "Learner"
     }
+  },
+  "skills": {
+    "title": "Skills & Profiles",
+    "profiles": "Skill Profiles",
+    "skillsSection": "Skills",
+    "name": "Name",
+    "category": "Category",
+    "description": "Description",
+    "levelCount": "Level Count",
+    "isUniversal": "Universal",
+    "profile": "Profile",
+    "prerequisites": "Prerequisites",
+    "noProfile": "No Profile",
+    "universal": "Universal",
+    "actions": "Actions",
+    "profileName": "Profile Name",
+    "addSkill": "Add Skill",
+    "editSkill": "Edit Skill",
+    "deleteSkill": "Delete Skill",
+    "addProfile": "Add Profile",
+    "editProfile": "Edit Profile",
+    "deleteProfile": "Delete Profile",
+    "noSkills": "No skills found",
+    "noProfiles": "No profiles found",
+    "formDescription": "Fill in the skill details below.",
+    "nameRequired": "Name is required",
+    "confirmDelete": "Are you sure you want to delete \"{{name}}\"? This action cannot be undone.",
+    "confirmDeleteProfile": "Are you sure you want to delete profile \"{{name}}\"? This action cannot be undone.",
+    "saveSuccess": "Skill saved successfully",
+    "deleteSuccess": "Skill deleted successfully",
+    "saveFailed": "Failed to save skill",
+    "deleteFailed": "Failed to delete skill",
+    "profileSaveSuccess": "Profile saved successfully",
+    "profileDeleteSuccess": "Profile deleted successfully",
+    "profileSaveFailed": "Failed to save profile",
+    "profileDeleteFailed": "Failed to delete profile"
   },
   "errors": {
     "sessionExpired": "Session expired!",

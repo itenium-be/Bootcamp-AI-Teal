@@ -134,11 +134,69 @@ export interface UpdateUserPayload {
 export interface SkillProfile {
   id: number;
   name: string;
+  skills?: Skill[];
+}
+
+export interface Skill {
+  id: number;
+  name: string;
+  category: string | null;
+  description: string | null;
+  levelCount: number;
+  isUniversal: boolean;
+  profileId: number | null;
+}
+
+interface SkillPayload {
+  name: string;
+  category: string | null;
+  description: string | null;
+  levelCount: number;
+  isUniversal: boolean;
+  profileId: number | null;
 }
 
 export async function fetchSkillProfiles(): Promise<SkillProfile[]> {
-  const response = await api.get<SkillProfile[]>('/api/skillprofile');
+  const response = await api.get<SkillProfile[]>('/api/skill-profile');
   return response.data;
+}
+
+export async function createSkillProfile(data: { name: string }): Promise<SkillProfile> {
+  const response = await api.post<SkillProfile>('/api/skill-profile', data);
+  return response.data;
+}
+
+export async function updateSkillProfile(id: number, data: { name: string }): Promise<SkillProfile> {
+  const response = await api.put<SkillProfile>(`/api/skill-profile/${id}`, data);
+  return response.data;
+}
+
+export async function deleteSkillProfile(id: number): Promise<void> {
+  await api.delete(`/api/skill-profile/${id}`);
+}
+
+export async function fetchSkills(profileId?: number): Promise<Skill[]> {
+  const params = profileId !== undefined ? `?profileId=${profileId}` : '';
+  const response = await api.get<Skill[]>(`/api/skill${params}`);
+  return response.data;
+}
+
+export async function createSkill(data: SkillPayload): Promise<Skill> {
+  const response = await api.post<Skill>('/api/skill', data);
+  return response.data;
+}
+
+export async function updateSkill(id: number, data: SkillPayload): Promise<Skill> {
+  const response = await api.put<Skill>(`/api/skill/${id}`, data);
+  return response.data;
+}
+
+export async function deleteSkill(id: number): Promise<void> {
+  await api.delete(`/api/skill/${id}`);
+}
+
+export async function addSkillDependency(skillId: number, prerequisiteSkillId: number): Promise<void> {
+  await api.post(`/api/skill/${skillId}/dependencies`, { prerequisiteSkillId });
 }
 
 export async function fetchAdminUsers(): Promise<AdminUser[]> {
