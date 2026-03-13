@@ -15,6 +15,7 @@ import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticat
 import { Route as AuthenticatedCoursesRouteImport } from './routes/_authenticated/courses'
 import { Route as AuthenticatedCatalogRouteImport } from './routes/_authenticated/catalog'
 import { Route as authSignInRouteImport } from './routes/(auth)/sign-in'
+import { Route as AuthenticatedTeamMembersRouteImport } from './routes/_authenticated/team.members'
 import { Route as AuthenticatedAdminSkillsRouteImport } from './routes/_authenticated/admin.skills'
 
 const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
@@ -46,6 +47,12 @@ const authSignInRoute = authSignInRouteImport.update({
   path: '/sign-in',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedTeamMembersRoute =
+  AuthenticatedTeamMembersRouteImport.update({
+    id: '/team/members',
+    path: '/team/members',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedAdminSkillsRoute =
   AuthenticatedAdminSkillsRouteImport.update({
     id: '/admin/skills',
@@ -60,6 +67,7 @@ export interface FileRoutesByFullPath {
   '/settings': typeof AuthenticatedSettingsRoute
   '/': typeof AuthenticatedIndexRoute
   '/admin/skills': typeof AuthenticatedAdminSkillsRoute
+  '/team/members': typeof AuthenticatedTeamMembersRoute
 }
 export interface FileRoutesByTo {
   '/sign-in': typeof authSignInRoute
@@ -68,6 +76,7 @@ export interface FileRoutesByTo {
   '/settings': typeof AuthenticatedSettingsRoute
   '/': typeof AuthenticatedIndexRoute
   '/admin/skills': typeof AuthenticatedAdminSkillsRoute
+  '/team/members': typeof AuthenticatedTeamMembersRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -78,6 +87,7 @@ export interface FileRoutesById {
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
   '/_authenticated/': typeof AuthenticatedIndexRoute
   '/_authenticated/admin/skills': typeof AuthenticatedAdminSkillsRoute
+  '/_authenticated/team/members': typeof AuthenticatedTeamMembersRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -88,8 +98,16 @@ export interface FileRouteTypes {
     | '/settings'
     | '/'
     | '/admin/skills'
+    | '/team/members'
   fileRoutesByTo: FileRoutesByTo
-  to: '/sign-in' | '/catalog' | '/courses' | '/settings' | '/' | '/admin/skills'
+  to:
+    | '/sign-in'
+    | '/catalog'
+    | '/courses'
+    | '/settings'
+    | '/'
+    | '/admin/skills'
+    | '/team/members'
   id:
     | '__root__'
     | '/_authenticated'
@@ -99,6 +117,7 @@ export interface FileRouteTypes {
     | '/_authenticated/settings'
     | '/_authenticated/'
     | '/_authenticated/admin/skills'
+    | '/_authenticated/team/members'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -150,6 +169,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authSignInRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/team/members': {
+      id: '/_authenticated/team/members'
+      path: '/team/members'
+      fullPath: '/team/members'
+      preLoaderRoute: typeof AuthenticatedTeamMembersRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/admin/skills': {
       id: '/_authenticated/admin/skills'
       path: '/admin/skills'
@@ -166,6 +192,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
   AuthenticatedAdminSkillsRoute: typeof AuthenticatedAdminSkillsRoute
+  AuthenticatedTeamMembersRoute: typeof AuthenticatedTeamMembersRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
@@ -174,6 +201,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
   AuthenticatedAdminSkillsRoute: AuthenticatedAdminSkillsRoute,
+  AuthenticatedTeamMembersRoute: AuthenticatedTeamMembersRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =

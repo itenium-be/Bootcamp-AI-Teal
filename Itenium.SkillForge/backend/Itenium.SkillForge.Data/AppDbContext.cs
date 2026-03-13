@@ -38,5 +38,8 @@ public class AppDbContext : ForgeIdentityDbContext
 
         builder.Entity<SkillEntity>()
             .ToTable(t => t.HasCheckConstraint("CK_Skills_LevelCount", "\"LevelCount\" BETWEEN 1 AND 5"));
+
+        builder.Entity<ForgeUser>()
+            .Property<int?>("ProfileId");
     }
 }

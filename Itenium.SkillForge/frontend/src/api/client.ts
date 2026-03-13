@@ -172,3 +172,19 @@ export async function deleteSkill(id: number): Promise<void> {
 export async function addSkillDependency(skillId: number, prerequisiteSkillId: number): Promise<void> {
   await api.post(`/api/skill/${skillId}/dependencies`, { prerequisiteSkillId });
 }
+
+export interface UserSummary {
+  id: string;
+  name: string | null;
+  email: string | null;
+  profileId: number | null;
+}
+
+export async function fetchUsers(): Promise<UserSummary[]> {
+  const response = await api.get<UserSummary[]>('/api/user');
+  return response.data;
+}
+
+export async function assignUserProfile(userId: string, profileId: number | null): Promise<void> {
+  await api.put(`/api/user/${userId}/profile`, { profileId });
+}
