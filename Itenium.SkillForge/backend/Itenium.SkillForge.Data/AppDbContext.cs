@@ -12,11 +12,31 @@ public class AppDbContext : ForgeIdentityDbContext
     }
 
     public DbSet<TeamEntity> Teams => Set<TeamEntity>();
-
     public DbSet<CourseEntity> Courses => Set<CourseEntity>();
+    public DbSet<SkillProfileEntity> SkillProfiles => Set<SkillProfileEntity>();
+    public DbSet<SkillEntity> Skills => Set<SkillEntity>();
+    public DbSet<SkillDependencyEntity> SkillDependencies => Set<SkillDependencyEntity>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
+
+        builder.Entity<SkillDependencyEntity>()
+            .HasKey(d => new { d.SkillId, d.PrerequisiteSkillId });
+
+        builder.Entity<SkillDependencyEntity>()
+            .HasOne(d => d.Skill)
+            .WithMany(s => s.Dependencies)
+            .HasForeignKey(d => d.SkillId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        builder.Entity<SkillDependencyEntity>()
+            .HasOne(d => d.Prerequisite)
+            .WithMany()
+            .HasForeignKey(d => d.PrerequisiteSkillId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        builder.Entity<SkillEntity>()
+            .ToTable(t => t.HasCheckConstraint("CK_Skills_LevelCount", "\"LevelCount\" BETWEEN 1 AND 5"));
     }
 }
