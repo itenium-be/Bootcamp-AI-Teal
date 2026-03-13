@@ -60,8 +60,15 @@ export async function fetchUserTeams(): Promise<Team[]> {
   return response.data;
 }
 
-interface Course {
+export interface Course {
   id: number;
+  name: string;
+  description: string | null;
+  category: string | null;
+  level: string | null;
+}
+
+interface CoursePayload {
   name: string;
   description: string | null;
   category: string | null;
@@ -82,4 +89,18 @@ interface Stats {
 export async function fetchStats(): Promise<Stats> {
   const response = await api.get<Stats>('/api/stats');
   return response.data;
+}
+
+export async function createCourse(data: CoursePayload): Promise<Course> {
+  const response = await api.post<Course>('/api/course', data);
+  return response.data;
+}
+
+export async function updateCourse(id: number, data: CoursePayload): Promise<Course> {
+  const response = await api.put<Course>(`/api/course/${id}`, data);
+  return response.data;
+}
+
+export async function deleteCourse(id: number): Promise<void> {
+  await api.delete(`/api/course/${id}`);
 }

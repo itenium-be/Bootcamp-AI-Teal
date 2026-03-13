@@ -246,6 +246,7 @@ export function Layout() {
 
   // Administration - shown for backoffice
   const adminNavItems = [
+    { path: '/courses', icon: BookOpen, label: t('nav.courses') },
     { path: '/admin/users', icon: Users, label: t('nav.users') },
     { path: '/admin/teams', icon: Component, label: t('nav.teams') },
   ];
