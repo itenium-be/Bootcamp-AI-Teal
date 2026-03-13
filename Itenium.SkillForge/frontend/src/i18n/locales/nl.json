@@ -118,6 +118,43 @@
     "active": "Actief",
     "user": "Gebruiker"
   },
+  "users": {
+    "title": "Gebruikers",
+    "name": "Naam",
+    "email": "E-mail",
+    "role": "Rol",
+    "teams": "Team(s)",
+    "profile": "Profiel",
+    "status": "Status",
+    "active": "Actief",
+    "inactive": "Inactief",
+    "actions": "Acties",
+    "addUser": "Gebruiker Toevoegen",
+    "editUser": "Gebruiker Bewerken",
+    "deactivateUser": "Gebruiker Deactiveren",
+    "noUsers": "Geen gebruikers gevonden",
+    "formDescription": "Vul de gebruikersgegevens hieronder in.",
+    "firstName": "Voornaam",
+    "lastName": "Achternaam",
+    "selectRole": "Selecteer rol",
+    "selectTeam": "Geen team",
+    "selectProfile": "Geen profiel",
+    "firstNameRequired": "Voornaam is verplicht",
+    "lastNameRequired": "Achternaam is verplicht",
+    "emailRequired": "E-mail is verplicht",
+    "emailInvalid": "Ongeldig e-mailadres",
+    "roleRequired": "Rol is verplicht",
+    "confirmDeactivate": "Weet u zeker dat u \"{{name}}\" wilt deactiveren?",
+    "saveSuccess": "Gebruiker succesvol opgeslagen",
+    "deactivateSuccess": "Gebruiker succesvol gedeactiveerd",
+    "saveFailed": "Gebruiker opslaan mislukt",
+    "deactivateFailed": "Gebruiker deactiveren mislukt",
+    "roles": {
+      "backoffice": "BackOffice",
+      "manager": "Manager",
+      "learner": "Leerling"
+    }
+  },
   "errors": {
     "sessionExpired": "Sessie verlopen!",
     "internalServerError": "Interne serverfout!"

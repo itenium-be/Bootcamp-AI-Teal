@@ -104,3 +104,58 @@ export async function updateCourse(id: number, data: CoursePayload): Promise<Cou
 export async function deleteCourse(id: number): Promise<void> {
   await api.delete(`/api/course/${id}`);
 }
+
+export interface AdminUser {
+  id: string;
+  name: string;
+  email: string;
+  role: string | null;
+  teamIds: number[];
+  profileId: number | null;
+  profileName: string | null;
+  isActive: boolean;
+}
+
+export interface CreateUserPayload {
+  firstName: string;
+  lastName: string;
+  email: string;
+  role: string;
+  teamId: number | null;
+  profileId: number | null;
+}
+
+export interface UpdateUserPayload {
+  role: string;
+  teamId: number | null;
+  profileId: number | null;
+}
+
+export interface SkillProfile {
+  id: number;
+  name: string;
+}
+
+export async function fetchSkillProfiles(): Promise<SkillProfile[]> {
+  const response = await api.get<SkillProfile[]>('/api/skillprofile');
+  return response.data;
+}
+
+export async function fetchAdminUsers(): Promise<AdminUser[]> {
+  const response = await api.get<AdminUser[]>('/api/user');
+  return response.data;
+}
+
+export async function createAdminUser(data: CreateUserPayload): Promise<AdminUser> {
+  const response = await api.post<AdminUser>('/api/user', data);
+  return response.data;
+}
+
+export async function updateAdminUser(id: string, data: UpdateUserPayload): Promise<AdminUser> {
+  const response = await api.put<AdminUser>(`/api/user/${id}`, data);
+  return response.data;
+}
+
+export async function deactivateAdminUser(id: string): Promise<void> {
+  await api.post(`/api/user/${id}/deactivate`);
+}

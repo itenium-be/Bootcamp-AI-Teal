@@ -118,6 +118,43 @@
     "active": "Active",
     "user": "User"
   },
+  "users": {
+    "title": "Users",
+    "name": "Name",
+    "email": "Email",
+    "role": "Role",
+    "teams": "Team(s)",
+    "profile": "Profile",
+    "status": "Status",
+    "active": "Active",
+    "inactive": "Inactive",
+    "actions": "Actions",
+    "addUser": "Add User",
+    "editUser": "Edit User",
+    "deactivateUser": "Deactivate User",
+    "noUsers": "No users found",
+    "formDescription": "Fill in the user details below.",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "selectRole": "Select role",
+    "selectTeam": "No team",
+    "selectProfile": "No profile",
+    "firstNameRequired": "First name is required",
+    "lastNameRequired": "Last name is required",
+    "emailRequired": "Email is required",
+    "emailInvalid": "Invalid email address",
+    "roleRequired": "Role is required",
+    "confirmDeactivate": "Are you sure you want to deactivate \"{{name}}\"?",
+    "saveSuccess": "User saved successfully",
+    "deactivateSuccess": "User deactivated successfully",
+    "saveFailed": "Failed to save user",
+    "deactivateFailed": "Failed to deactivate user",
+    "roles": {
+      "backoffice": "BackOffice",
+      "manager": "Manager",
+      "learner": "Learner"
+    }
+  },
   "errors": {
     "sessionExpired": "Session expired!",
     "internalServerError": "Internal Server Error!"
