@@ -73,7 +73,14 @@
     "addCourse": "Cursus Toevoegen",
     "editCourse": "Cursus Bewerken",
     "deleteCourse": "Cursus Verwijderen",
-    "noCourses": "Geen cursussen gevonden"
+    "noCourses": "Geen cursussen gevonden",
+    "formDescription": "Vul de cursusdetails hieronder in.",
+    "nameRequired": "Naam is verplicht",
+    "confirmDelete": "Weet u zeker dat u \"{{name}}\" wilt verwijderen? Deze actie kan niet ongedaan worden gemaakt.",
+    "saveSuccess": "Cursus succesvol opgeslagen",
+    "deleteSuccess": "Cursus succesvol verwijderd",
+    "saveFailed": "Cursus opslaan mislukt",
+    "deleteFailed": "Cursus verwijderen mislukt"
   },
   "learners": {
     "title": "Leerlingen",

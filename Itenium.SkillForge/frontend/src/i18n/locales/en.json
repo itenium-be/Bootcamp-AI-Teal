@@ -73,7 +73,14 @@
     "addCourse": "Add Course",
     "editCourse": "Edit Course",
     "deleteCourse": "Delete Course",
-    "noCourses": "No courses found"
+    "noCourses": "No courses found",
+    "formDescription": "Fill in the course details below.",
+    "nameRequired": "Name is required",
+    "confirmDelete": "Are you sure you want to delete \"{{name}}\"? This action cannot be undone.",
+    "saveSuccess": "Course saved successfully",
+    "deleteSuccess": "Course deleted successfully",
+    "saveFailed": "Failed to save course",
+    "deleteFailed": "Failed to delete course"
   },
   "learners": {
     "title": "Learners",
