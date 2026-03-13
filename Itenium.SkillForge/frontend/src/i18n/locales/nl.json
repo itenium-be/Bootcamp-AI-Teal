@@ -36,7 +36,22 @@
     "completion": "Voltooiing",
     "feedback": "Feedback",
     "settingsSection": "Instellingen",
-    "certificateTemplates": "Certificaat Sjablonen"
+    "certificateTemplates": "Certificaat Sjablonen",
+    "roadmap": "Stappenplan"
+  },
+  "roadmap": {
+    "title": "Mijn Stappenplan",
+    "currentFocus": "Huidige Focus",
+    "completed": "Voltooid",
+    "noGoals": "Nog geen doelen toegewezen.",
+    "targetLevel": "Doelniveau: {{level}}",
+    "dueDate": "Deadline",
+    "status": {
+      "Active": "Bezig",
+      "ReadyForValidation": "Klaar voor Review",
+      "Validated": "Gevalideerd",
+      "Abandoned": "Afgebroken"
+    }
   },
   "auth": {
     "signIn": "Inloggen",

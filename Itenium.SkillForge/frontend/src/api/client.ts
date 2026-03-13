@@ -27,6 +27,8 @@ api.interceptors.response.use(
   },
 );
 
+export default api;
+
 interface LoginResponse {
   access_token: string;
   token_type: string;

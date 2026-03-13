@@ -40,6 +40,7 @@ describe('useAuthStore', () => {
         id: 'user-123',
         name: 'Alice',
         email: 'alice@example.com',
+        role: 'backoffice',
         isBackOffice: true,
       });
     });

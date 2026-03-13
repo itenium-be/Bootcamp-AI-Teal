@@ -8,4 +8,16 @@ public enum Capability
 {
     ReadCourse,
     ManageCourse,
+
+    ReadSkills,
+    ManageSkills,
+
+    ReadGoals,
+    ManageGoals,
+    ValidateGoal,
+
+    ReadResources,
+    ManageResources,
+
+    ReadCoachDashboard,
 }

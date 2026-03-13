@@ -36,7 +36,22 @@
     "completion": "Completion",
     "feedback": "Feedback",
     "settingsSection": "Settings",
-    "certificateTemplates": "Certificate Templates"
+    "certificateTemplates": "Certificate Templates",
+    "roadmap": "Roadmap"
+  },
+  "roadmap": {
+    "title": "My Roadmap",
+    "currentFocus": "Current Focus",
+    "completed": "Completed",
+    "noGoals": "No goals assigned yet.",
+    "targetLevel": "Target level: {{level}}",
+    "dueDate": "Due",
+    "status": {
+      "Active": "In Progress",
+      "ReadyForValidation": "Ready for Review",
+      "Validated": "Validated",
+      "Abandoned": "Abandoned"
+    }
   },
   "auth": {
     "signIn": "Sign In",

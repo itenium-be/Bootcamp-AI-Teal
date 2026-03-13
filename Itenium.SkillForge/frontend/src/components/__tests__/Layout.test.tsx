@@ -84,6 +84,7 @@ vi.mock('lucide-react', () => {
     ClipboardList: I,
     MessageSquare: I,
     CheckCircle: I,
+    Map: I,
   };
 });
 
@@ -114,6 +115,7 @@ function setupStores(options: {
       id: 'user-1',
       email: 'test@test.com',
       name: userName,
+      role: isBackOffice ? 'backoffice' : 'learner',
       isBackOffice,
     },
   });

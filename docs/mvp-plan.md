@@ -1,6 +1,6 @@
 # SkillForge — MVP Implementation Plan
 
-> **Version**: 1.0 — 2026-03-13
+> **Version**: 1.1 — 2026-03-13
 > **Demo target**: Bootcamp demo, 2026-03-13
 > **Status**: Planning
 
@@ -73,23 +73,17 @@ All go in `Itenium.SkillForge.Entities/`:
 
 ## Build Sequence
 
-### Backend
+### Slice 0 — Foundation *(no user-visible feature; unblocks everything)*
 
-```
-Step 1  Entities (no dependencies)
-Step 2  AppDbContext — 7 new DbSets + unique index on ReadinessFlagEntity(GoalId)
-Step 3  EF Migration — dotnet ef migrations add SkillForgeDomain
-Step 4  SeedData — skills, goals for Lea, resources, one readiness flag
-Step 5  Capability enum + appsettings.json RoleCapabilities
-Step 6  ISkillForgeUser — add IsManager, UserId
-Step 7  Controllers (TDD: test first, then implement)
-        6a  SkillController        GET /api/skill, GET /api/skill/{id}
-        6b  GoalController         GET /api/goal, POST /api/goal, PUT /api/goal/{id}/status
-        6c  ResourceController     GET /api/resource, POST /api/resource/{id}/complete
-        6d  ReadinessFlagController POST/DELETE /api/goal/{goalId}/flag
-        6e  CoachDashboardController GET /api/coach/dashboard
-        6f  LiveSessionController  POST /api/coach/session
-```
+| # | What | Where |
+|---|------|-------|
+| B1 | Create 7 entities + `GoalStatus` enum | `Entities/` |
+| B2 | Add 7 DbSets to `AppDbContext` + unique index on `ReadinessFlagEntity(GoalId)` | `Data/AppDbContext.cs` |
+| B3 | Run EF migration: `dotnet ef migrations add SkillForgeDomain` | `Data/Migrations/` |
+| B4 | Seed: skills, Lea's goals (Active), resources, one readiness flag | `Data/SeedData.cs` |
+| B5 | Extend `Capability` enum + `appsettings.json` RoleCapabilities | `Services/Capability.cs`, `WebApi/appsettings.json` |
+| B6 | Add `IsManager` + `UserId` to `ISkillForgeUser`; implement in `SkillForgeUser` | `Services/` |
+| F1 | Parse `role` claim from JWT in `authStore` + test | `stores/authStore.ts` |
 
 **RoleCapabilities (appsettings.json):**
 ```json
@@ -98,20 +92,84 @@ Step 7  Controllers (TDD: test first, then implement)
 "learner":    ["ReadSkills","ReadGoals","ReadResources"]
 ```
 
-### Frontend
+---
 
-```
-Step F1  authStore — add role: 'backoffice'|'manager'|'learner' parsed from JWT
-Step F2  API client files — api/goals.ts, api/resources.ts, api/coach.ts
-Step F3  Roadmap page + route (_authenticated/roadmap.tsx)
-Step F4  Resources page + route (_authenticated/resources.tsx)
-Step F5  Coach Dashboard + route (_authenticated/coach/index.tsx)
-Step F6  Coach Consultant detail + route (_authenticated/coach/$consultantId.tsx)
-Step F7  Live Session modal (pages/LiveSession.tsx)
-Step F8  Assign Goal form + route (_authenticated/coach/assign-goal.tsx)
-Step F9  Layout.tsx — update nav for new routes per role
-Step F10 i18n keys — en.json + nl.json for all new pages
-```
+### Slice 1 — Lea sees her Roadmap
+> *"Logs in → sees Roadmap (coach-set goals, current + next tier)"*
+
+| # | What | TDD |
+|---|------|-----|
+| B7 | `SkillController` — `GET /api/skill`, `GET /api/skill/{id}` | `SkillControllerTests` (red → green) |
+| B8 | `GoalController` — `GET /api/goal` (filtered to current user) | `GoalControllerTests` (red → green) |
+| F2 | `api/goals.ts` + `api/skills.ts` client functions | — |
+| F3 | `Roadmap` page + route `_authenticated/roadmap.tsx` (groups goals by skill level; current tier + next tier) | — |
+| F4 | Update `Layout.tsx` nav: show Roadmap for `learner` role | — |
+
+---
+
+### Slice 2 — Lea browses Resources for a goal
+> *"Clicks into a goal → browses Resources filtered by skill"*
+
+| # | What | TDD |
+|---|------|-----|
+| B9 | `ResourceController` — `GET /api/resource` (supports `?skillId=` filter) | `ResourceControllerTests` (red → green) |
+| F5 | `api/resources.ts` client | — |
+| F6 | `Resources` page + route `_authenticated/resources.tsx` (filtered by skill from goal context) | — |
+
+---
+
+### Slice 3 — Lea marks a resource complete
+> *"Marks a resource complete"*
+
+| # | What | TDD |
+|---|------|-----|
+| B10 | `ResourceController` — `POST /api/resource/{id}/complete` | extend `ResourceControllerTests` |
+| F7 | "Mark complete" toggle in Resources page (optimistic update) | — |
+
+---
+
+### Slice 4 — Lea raises a Readiness Flag
+> *"Raises a Readiness Flag on a goal ('I'm ready')"*
+
+| # | What | TDD |
+|---|------|-----|
+| B11 | `ReadinessFlagController` — `POST /api/goal/{goalId}/flag` + `DELETE /api/goal/{goalId}/flag`; return 409 if flag already exists | `ReadinessFlagControllerTests` (red → green) |
+| F8 | "I'm ready" button on Roadmap goal card; toggles flag state | — |
+
+---
+
+### Slice 5 — Nathalie sees Coach Dashboard
+> *"Logs in → sees Coach Dashboard (consultants, flags, goal summary)"*
+
+| # | What | TDD |
+|---|------|-----|
+| B12 | `CoachDashboardController` — `GET /api/coach/dashboard` (joins ForgeUser for names; returns consultants with flag counts + goal counts) | `CoachDashboardControllerTests` (red → green) |
+| F9 | `api/coach.ts` client | — |
+| F10 | `CoachDashboard` page + route `_authenticated/coach/index.tsx` | — |
+| F11 | Update `Layout.tsx` nav: show Coach Dashboard for `manager` role | — |
+
+---
+
+### Slice 6 — Nathalie validates a skill + assigns a new goal
+> *"Opens Live Session → 2-tap validates a skill → assigns a new goal"*
+
+| # | What | TDD |
+|---|------|-----|
+| B13 | `GoalController` — `PUT /api/goal/{id}/status` (Active → ReadyForValidation → Validated) | extend `GoalControllerTests` |
+| B14 | `GoalController` — `POST /api/goal` (assign new goal) | extend `GoalControllerTests` |
+| B15 | `LiveSessionController` — `POST /api/coach/session` (records `CoachingSessionEntity`; validates goal in one request) | `LiveSessionControllerTests` (red → green) |
+| F12 | `CoachConsultant` detail page + route `_authenticated/coach/$consultantId.tsx` | — |
+| F13 | `LiveSession` modal — step 1: validate goal (2 taps); step 2: optional notes | — |
+| F14 | `AssignGoal` form + route `_authenticated/coach/assign-goal.tsx` | — |
+
+---
+
+### Slice 7 — i18n
+> *All pages translated*
+
+| # | What |
+|---|------|
+| F15 | Add `en.json` + `nl.json` keys for all new pages (Roadmap, Resources, CoachDashboard, LiveSession, AssignGoal) |
 
 ---
 
@@ -194,4 +252,5 @@ frontend/src/i18n/locales/nl.json     new keys
 
 | Version | Date | Change |
 |---|---|---|
+| 1.1 | 2026-03-13 | Refined build sequence into 7 vertical slices mapped to user story steps |
 | 1.0 | 2026-03-13 | Initial plan — derived from PRD, codebase exploration, and architecture analysis |

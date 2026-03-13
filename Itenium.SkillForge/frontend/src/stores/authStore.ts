@@ -11,10 +11,13 @@ interface JwtPayload {
   exp?: number;
 }
 
+type UserRole = 'backoffice' | 'manager' | 'learner';
+
 interface User {
   id: string;
   email: string;
   name: string;
+  role: UserRole;
   isBackOffice: boolean;
 }
 
@@ -26,14 +29,22 @@ interface AuthState {
   logout: () => void;
 }
 
+function parseRole(decoded: JwtPayload): UserRole {
+  const roles = Array.isArray(decoded.role) ? decoded.role : decoded.role ? [decoded.role] : [];
+  if (roles.includes('backoffice')) return 'backoffice';
+  if (roles.includes('manager')) return 'manager';
+  return 'learner';
+}
+
 function parseUserFromToken(token: string): User {
   const decoded = jwtDecode<JwtPayload>(token);
-  const roles = Array.isArray(decoded.role) ? decoded.role : decoded.role ? [decoded.role] : [];
+  const role = parseRole(decoded);
   return {
     id: decoded.sub,
     email: decoded.email || decoded.preferred_username || '',
     name: decoded.name || decoded.preferred_username || 'User',
-    isBackOffice: roles.includes('backoffice'),
+    role,
+    isBackOffice: role === 'backoffice',
   };
 }
 

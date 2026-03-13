@@ -13,6 +13,11 @@ public interface ISkillForgeUser : ICurrentUser
     bool IsBackOffice { get; }
 
     /// <summary>
+    /// Gets a value indicating whether the current user is a Manager/Coach.
+    /// </summary>
+    bool IsManager { get; }
+
+    /// <summary>
     /// Gets the IDs of the Teams the user has access to.
     /// </summary>
     ICollection<int> Teams { get; }
