@@ -16,6 +16,7 @@ public class AppDbContext : ForgeIdentityDbContext
     public DbSet<SkillProfileEntity> SkillProfiles => Set<SkillProfileEntity>();
     public DbSet<SkillEntity> Skills => Set<SkillEntity>();
     public DbSet<SkillDependencyEntity> SkillDependencies => Set<SkillDependencyEntity>();
+    public DbSet<ConsultantSkillLevelEntity> ConsultantSkillLevels => Set<ConsultantSkillLevelEntity>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -38,5 +39,17 @@ public class AppDbContext : ForgeIdentityDbContext
 
         builder.Entity<SkillEntity>()
             .ToTable(t => t.HasCheckConstraint("CK_Skills_LevelCount", "\"LevelCount\" BETWEEN 1 AND 5"));
+
+        builder.Entity<ForgeUser>()
+            .Property<int?>("ProfileId");
+
+        builder.Entity<ConsultantSkillLevelEntity>()
+            .HasKey(l => new { l.ConsultantId, l.SkillId });
+
+        builder.Entity<ConsultantSkillLevelEntity>()
+            .HasOne(l => l.Skill)
+            .WithMany()
+            .HasForeignKey(l => l.SkillId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

@@ -156,6 +156,17 @@
       "learner": "Learner"
     }
   },
+  "teamMembers": {
+    "title": "Team Members",
+    "name": "Name",
+    "email": "Email",
+    "profile": "Skill Profile",
+    "noProfile": "No Profile",
+    "assignProfile": "Assign profile",
+    "noMembers": "No members found",
+    "profileAssigned": "Profile assigned successfully",
+    "profileAssignFailed": "Failed to assign profile"
+  },
   "skills": {
     "title": "Skills & Profiles",
     "profiles": "Skill Profiles",

@@ -5,6 +5,7 @@ using Itenium.SkillForge.Entities;
 using Itenium.SkillForge.WebApi.Controllers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using NSubstitute;
 
 namespace Itenium.SkillForge.WebApi.Tests;
@@ -45,6 +46,22 @@ public class UserControllerTests : DatabaseTestBase
 
     private static IdentityRole MakeRole(string name) =>
         new() { Id = Guid.NewGuid().ToString(), Name = name, NormalizedName = name.ToUpperInvariant() };
+
+    private static ForgeUser CreateUser(string userName, string email, string? firstName = null, string? lastName = null)
+    {
+        return new ForgeUser
+        {
+            Id = Guid.NewGuid().ToString(),
+            UserName = userName,
+            NormalizedUserName = userName.ToUpperInvariant(),
+            Email = email,
+            NormalizedEmail = email.ToUpperInvariant(),
+            SecurityStamp = Guid.NewGuid().ToString(),
+            ConcurrencyStamp = Guid.NewGuid().ToString(),
+            FirstName = firstName,
+            LastName = lastName,
+        };
+    }
 
     // -------------------------------------------------------
     // GetUsers
@@ -265,5 +282,53 @@ public class UserControllerTests : DatabaseTestBase
         Assert.That(user.LockoutEnabled, Is.True);
         Assert.That(user.LockoutEnd, Is.EqualTo(DateTimeOffset.MaxValue));
         await _userManager.Received(1).UpdateAsync(user);
+    }
+
+    // -------------------------------------------------------
+    // AssignProfile
+    // -------------------------------------------------------
+
+    [Test]
+    public async Task AssignProfile_WhenUserExists_SetsProfileAndReturnsNoContent()
+    {
+        var profile = new SkillProfileEntity { Name = "Java Developer" };
+        Db.SkillProfiles.Add(profile);
+        var user = CreateUser("dave", "dave@test.com");
+        Db.Set<ForgeUser>().Add(user);
+        await Db.SaveChangesAsync();
+
+        var result = await _sut.AssignProfile(user.Id, new AssignProfileRequest(profile.Id));
+
+        Assert.That(result, Is.TypeOf<NoContentResult>());
+        var updatedUser = await Db.Set<ForgeUser>().FindAsync(user.Id);
+        var profileId = Db.Entry(updatedUser!).Property<int?>("ProfileId").CurrentValue;
+        Assert.That(profileId, Is.EqualTo(profile.Id));
+    }
+
+    [Test]
+    public async Task AssignProfile_WithNullProfileId_ClearsProfile()
+    {
+        var profile = new SkillProfileEntity { Name = "QA Engineer" };
+        Db.SkillProfiles.Add(profile);
+        var user = CreateUser("eve", "eve@test.com");
+        Db.Set<ForgeUser>().Add(user);
+        await Db.SaveChangesAsync();
+
+        Db.Entry(user).Property<int?>("ProfileId").CurrentValue = profile.Id;
+        await Db.SaveChangesAsync();
+
+        var result = await _sut.AssignProfile(user.Id, new AssignProfileRequest(null));
+
+        Assert.That(result, Is.TypeOf<NoContentResult>());
+        var updatedUser = await Db.Set<ForgeUser>().FindAsync(user.Id);
+        var profileId = Db.Entry(updatedUser!).Property<int?>("ProfileId").CurrentValue;
+        Assert.That(profileId, Is.Null);
+    }
+
+    [Test]
+    public async Task AssignProfile_WhenUserNotFound_ReturnsNotFound()
+    {
+        var result = await _sut.AssignProfile("nonexistent-id", new AssignProfileRequest(1));
+        Assert.That(result, Is.TypeOf<NotFoundResult>());
     }
 }

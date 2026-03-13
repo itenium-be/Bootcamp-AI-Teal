@@ -156,6 +156,17 @@
       "learner": "Leerling"
     }
   },
+  "teamMembers": {
+    "title": "Teamleden",
+    "name": "Naam",
+    "email": "E-mail",
+    "profile": "Vaardigheidsprofiel",
+    "noProfile": "Geen Profiel",
+    "assignProfile": "Profiel toewijzen",
+    "noMembers": "Geen leden gevonden",
+    "profileAssigned": "Profiel succesvol toegewezen",
+    "profileAssignFailed": "Profiel toewijzen mislukt"
+  },
   "skills": {
     "title": "Vaardigheden & Profielen",
     "profiles": "Vaardigheidsprofielen",

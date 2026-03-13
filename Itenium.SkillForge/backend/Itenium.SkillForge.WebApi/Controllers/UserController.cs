@@ -223,5 +223,24 @@ public class UserController : ControllerBase
         return NoContent();
     }
 
+    /// <summary>
+    /// Assign or clear a skill profile for a user.
+    /// </summary>
+    [HttpPut("{id}/profile")]
+    [Authorize(Roles = "backoffice,manager")]
+    public async Task<ActionResult> AssignProfile(string id, [FromBody] AssignProfileRequest request)
+    {
+        var user = await _db.Set<ForgeUser>().FindAsync(id);
+        if (user == null)
+        {
+            return NotFound();
+        }
+
+        _db.Entry(user).Property<int?>("ProfileId").CurrentValue = request.ProfileId;
+        await _db.SaveChangesAsync();
+
+        return NoContent();
+    }
+
     private static string GenerateTempPassword() => $"Temp{Guid.NewGuid():N}!1A";
 }
