@@ -26,10 +26,10 @@ public static class SeedData
         if (!await db.Teams.AnyAsync())
         {
             db.Teams.AddRange(
-                new TeamEntity { Id = 1, Name = "Java" },
-                new TeamEntity { Id = 2, Name = ".NET" },
-                new TeamEntity { Id = 3, Name = "PO & Analysis" },
-                new TeamEntity { Id = 4, Name = "QA" });
+                new TeamEntity { Name = "Java" },
+                new TeamEntity { Name = ".NET" },
+                new TeamEntity { Name = "PO & Analysis" },
+                new TeamEntity { Name = "QA" });
             await db.SaveChangesAsync();
         }
     }
@@ -39,10 +39,10 @@ public static class SeedData
         if (!await db.Courses.AnyAsync())
         {
             db.Courses.AddRange(
-                new CourseEntity { Id = 1, Name = "Introduction to Programming", Description = "Learn the basics of programming", Category = "Development", Level = "Beginner" },
-                new CourseEntity { Id = 2, Name = "Advanced C#", Description = "Master C# programming language", Category = "Development", Level = "Advanced" },
-                new CourseEntity { Id = 3, Name = "Cloud Architecture", Description = "Design scalable cloud solutions", Category = "Architecture", Level = "Intermediate" },
-                new CourseEntity { Id = 4, Name = "Agile Project Management", Description = "Learn agile methodologies", Category = "Management", Level = "Beginner" });
+                new CourseEntity { Name = "Introduction to Programming", Description = "Learn the basics of programming", Category = "Development", Level = "Beginner" },
+                new CourseEntity { Name = "Advanced C#", Description = "Master C# programming language", Category = "Development", Level = "Advanced" },
+                new CourseEntity { Name = "Cloud Architecture", Description = "Design scalable cloud solutions", Category = "Architecture", Level = "Intermediate" },
+                new CourseEntity { Name = "Agile Project Management", Description = "Learn agile methodologies", Category = "Management", Level = "Beginner" });
             await db.SaveChangesAsync();
         }
     }
