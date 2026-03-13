@@ -57,8 +57,8 @@
     "title": "Dashboard",
     "welcome": "Welkom bij Itenium SkillForge",
     "totalCourses": "Totaal Cursussen",
-    "activeLearners": "Actieve Leerlingen",
-    "completedCourses": "Voltooide Cursussen"
+    "activeConsultants": "Actieve Consultants",
+    "activeGoals": "Actieve Doelen"
   },
   "courses": {
     "title": "Cursussen",

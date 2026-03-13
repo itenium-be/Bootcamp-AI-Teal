@@ -1,11 +1,17 @@
 import { useTranslation } from 'react-i18next';
-import { BookOpen, Users, Award } from 'lucide-react';
-import { Card, CardHeader, CardTitle, CardContent } from '@itenium-forge/ui';
+import { useQuery } from '@tanstack/react-query';
 import { useTeamStore } from '@/stores';
+import { fetchStats } from '@/api/client';
+import { DashboardStats } from '@/components/DashboardStats';
 
 export function Dashboard() {
   const { t } = useTranslation();
   const { mode, selectedTeam } = useTeamStore();
+
+  const { data: stats } = useQuery({
+    queryKey: ['stats'],
+    queryFn: fetchStats,
+  });
 
   return (
     <div className="space-y-6">
@@ -17,40 +23,11 @@ export function Dashboard() {
         </p>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-3">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium">{t('dashboard.totalCourses')}</CardTitle>
-            <BookOpen className="size-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">24</div>
-            <p className="text-xs text-muted-foreground">+3 from last month</p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium">{t('dashboard.activeLearners')}</CardTitle>
-            <Users className="size-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">156</div>
-            <p className="text-xs text-muted-foreground">Active this month</p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium">{t('dashboard.completedCourses')}</CardTitle>
-            <Award className="size-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">89</div>
-            <p className="text-xs text-muted-foreground">Certificates issued</p>
-          </CardContent>
-        </Card>
-      </div>
+      <DashboardStats
+        totalCourses={stats?.totalCourses ?? 0}
+        activeConsultants={stats?.activeConsultants ?? 0}
+        activeGoals={stats?.activeGoals ?? 0}
+      />
     </div>
   );
 }
