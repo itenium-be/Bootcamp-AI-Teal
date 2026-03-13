@@ -82,6 +82,12 @@
     "saveFailed": "Cursus opslaan mislukt",
     "deleteFailed": "Cursus verwijderen mislukt"
   },
+  "catalog": {
+    "title": "Cursuscatalogus",
+    "subtitle": "Bekijk alle beschikbare cursussen",
+    "allCategories": "Alle Categorieën",
+    "allLevels": "Alle Niveaus"
+  },
   "learners": {
     "title": "Leerlingen",
     "name": "Naam",

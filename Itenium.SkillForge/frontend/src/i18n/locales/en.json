@@ -82,6 +82,12 @@
     "saveFailed": "Failed to save course",
     "deleteFailed": "Failed to delete course"
   },
+  "catalog": {
+    "title": "Course Catalog",
+    "subtitle": "Browse all available courses",
+    "allCategories": "All Categories",
+    "allLevels": "All Levels"
+  },
   "learners": {
     "title": "Learners",
     "name": "Name",
